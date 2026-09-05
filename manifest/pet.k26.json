@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 1,
+  "id": "xiaoyue-k26",
+  "name": "小月 · K2.6",
+  "description": "Kimi 拟人化桌宠「小月」K2.6 形态",
+  "renderer": "rive",
+  "rive": {
+    "file": "pet.riv",
+    "stateMachine": "KimiAvator_homepage"
+  },
+  "theme": {
+    "bubble": {
+      "background": "#5A7599",
+      "foreground": "#FFFFFF",
+      "border": "#A8C8F0"
+    }
+  },
+  "provenance": {
+    "provider": "manual",
+    "summary": "Xiaoyue chibi pet, generated riv"
+  }
+}

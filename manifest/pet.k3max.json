@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 1,
+  "id": "xiaoyue-k3max",
+  "name": "小月 · K3 极致",
+  "description": "Kimi 拟人化桌宠「小月」K3 极致形态",
+  "renderer": "rive",
+  "rive": {
+    "file": "pet.riv",
+    "stateMachine": "KimiAvator_homepage"
+  },
+  "theme": {
+    "bubble": {
+      "background": "#44366E",
+      "foreground": "#FFFFFF",
+      "border": "#5B4A8A"
+    }
+  },
+  "provenance": {
+    "provider": "manual",
+    "summary": "Xiaoyue chibi pet, generated riv"
+  }
+}

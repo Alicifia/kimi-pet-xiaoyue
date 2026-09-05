@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 1,
+  "id": "xiaoyue-k3",
+  "name": "小月 · K3 标准",
+  "description": "Kimi 拟人化桌宠「小月」K3 标准形态",
+  "renderer": "rive",
+  "rive": {
+    "file": "pet.riv",
+    "stateMachine": "KimiAvator_homepage"
+  },
+  "theme": {
+    "bubble": {
+      "background": "#4F71A9",
+      "foreground": "#FFFFFF",
+      "border": "#7FA8EC"
+    }
+  },
+  "provenance": {
+    "provider": "manual",
+    "summary": "Xiaoyue chibi pet, generated riv"
+  }
+}
