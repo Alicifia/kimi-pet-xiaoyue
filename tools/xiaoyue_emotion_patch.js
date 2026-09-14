@@ -5,7 +5,7 @@
           if (Array.isArray(xyInputs)) {
             for (var xi = 0; xi < xyInputs.length; xi++) {
               var inp = xyInputs[xi];
-              if (inp && ['jump', 'angry', 'empty1', 'empty2'].indexOf(inp.name) !== -1 && typeof inp.fire === 'function') {
+              if (inp && ['jump', 'angry', 'empty1', 'empty2', 'happyOn', 'happyOff'].indexOf(inp.name) !== -1 && typeof inp.fire === 'function') {
                 riveActivityInputs.set(inp.name, inp);
               }
             }
@@ -20,15 +20,10 @@
             if (t && typeof t.fire === 'function') t.fire();
           } catch (e1) {}
         }
-        var xyHoverTimer = null;
-        rivePet.addEventListener('mouseover', function () {
-          xyFire('jump');
-          if (xyHoverTimer) clearInterval(xyHoverTimer);
-          xyHoverTimer = setInterval(function () { xyFire('jump'); }, 600);
-        });
-        rivePet.addEventListener('mouseout', function () {
-          if (xyHoverTimer) { clearInterval(xyHoverTimer); xyHoverTimer = null; }
-        });
+        // 悬停持续开心：happyOn → happyHold（loop 状态，不自动返回）；happyOff → 回 idle。
+        // 不要改成定时重触发 jump——jump 是一次性动画（约 667ms 后自动回 idle），接力会造成微笑/正常来回闪。
+        rivePet.addEventListener('mouseover', function () { xyFire('happyOn'); });
+        rivePet.addEventListener('mouseout', function () { xyFire('happyOff'); });
         var xyMoves = [];
         rivePet.addEventListener('mousemove', function (ev) {
           var now = Date.now();

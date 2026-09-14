@@ -47,7 +47,7 @@ python tools/xiaoyue_repatch.py
           if (Array.isArray(xyInputs)) {
             for (var xi = 0; xi < xyInputs.length; xi++) {
               var inp = xyInputs[xi];
-              if (inp && ['jump', 'angry', 'empty1', 'empty2'].indexOf(inp.name) !== -1 && typeof inp.fire === 'function') {
+              if (inp && ['jump', 'angry', 'empty1', 'empty2', 'happyOn', 'happyOff'].indexOf(inp.name) !== -1 && typeof inp.fire === 'function') {
                 riveActivityInputs.set(inp.name, inp);
               }
             }
@@ -62,15 +62,10 @@ python tools/xiaoyue_repatch.py
             if (t && typeof t.fire === 'function') t.fire();
           } catch (e1) {}
         }
-        var xyHoverTimer = null;
-        rivePet.addEventListener('mouseover', function () {
-          xyFire('jump');
-          if (xyHoverTimer) clearInterval(xyHoverTimer);
-          xyHoverTimer = setInterval(function () { xyFire('jump'); }, 600);
-        });
-        rivePet.addEventListener('mouseout', function () {
-          if (xyHoverTimer) { clearInterval(xyHoverTimer); xyHoverTimer = null; }
-        });
+        // 悬停持续开心：happyOn → happyHold（loop 状态，不自动返回）；happyOff → 回 idle。
+        // 不要改成定时重触发 jump——jump 是一次性动画（约 667ms 后自动回 idle），接力会造成微笑/正常来回闪。
+        rivePet.addEventListener('mouseover', function () { xyFire('happyOn'); });
+        rivePet.addEventListener('mouseout', function () { xyFire('happyOff'); });
         var xyMoves = [];
         rivePet.addEventListener('mousemove', function (ev) {
           var now = Date.now();
@@ -109,10 +104,10 @@ python tools/xiaoyue_repatch.py
 
 补丁说明：
 
-- 把 `jump/angry/empty1/empty2` 补充进可触发输入表（官方白名单不含它们）
+- 把 `jump/angry/empty1/empty2/happyOn/happyOff` 补充进可触发输入表（官方白名单不含它们）
 - `riveLookInputs.clear()`：关闭「鼠标移动 → 身体倾斜跟随」。**如果想恢复跟随，删掉这一行即可**
-- 悬停保持开心：悬停时每 600ms 重触发一次 `jump`，与 riv 内的开心循环动画接力；摇晃生气、双击生气、待机打瞌睡 / 惊讶交替
-- 待机首次触发约 18 秒，之后每 45–90 秒；改 `18000` 与 `45000` 两个数字即可调节
+- 悬停保持开心：进入时触发 `happyOn`（→ `happyHold` 循环状态，不自动返回），离开时触发 `happyOff`（→ 回 idle）。**不要改成定时重触发 `jump`**：`jump` 是一次性动画，约 667ms 后自动回 idle，接力会造成微笑 / 正常来回闪
+- 摇晃生气、双击生气、待机打瞌睡 / 惊讶交替；待机首次触发约 18 秒，之后每 45–90 秒，改 `18000` 与 `45000` 两个数字即可调节
 
 ## 三、重启 Kimi Work
 
