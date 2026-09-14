@@ -27,7 +27,7 @@
 
 | 操作 | 反应 | 状态机输入 |
 |---|---|---|
-| 鼠标移到桌宠身上（不挪开） | 一直保持开心 | `happyOn` / `happyOff` |
+| 鼠标移到桌宠身上（不挪开） | 一直保持开心 | `jump`（悬停期间每 600ms 重触发，与开心循环动画接力） |
 | 按住快速来回摇晃 | 生气 | `angry` |
 | 待机不管（约 45–90 秒） | 打瞌睡 ↔ 惊讶 交替 | `empty1` / `empty2` |
 | 有审批 / 授权待处理 | 害羞 | `shake`（运行时原生触发） |
@@ -45,10 +45,27 @@
 
 1. 选择你想要的形态，从 `riv/` 取出对应的 `.riv` 文件，从 `manifest/` 取出对应的 `pet.*.json`。
 2. 放入 Kimi Work 桌宠工作区目录（`pet.riv` + `pet.json`），详细路径见 [docs/INSTALL.md](docs/INSTALL.md)。
-3. 按安装文档给桌宠的 `index.html` 打上交互补丁（补丁代码与锚点位置全文附在文档中）。
+3. 运行一键补丁工具（自动发现 widget、备份、打补丁、语法检查）：
+
+   ```bat
+   python tools/xiaoyue_repatch.py
+   ```
+
 4. 重启 Kimi Work，小月就住进来啦 🎉
 
-完整步骤、目录对照表与回滚方法：**[docs/INSTALL.md](docs/INSTALL.md)**
+完整步骤、目录对照表、手动补丁方法与回滚说明：**[docs/INSTALL.md](docs/INSTALL.md)**
+
+## Kimi Work 升级后互动失效？
+
+官方升级会覆盖桌宠工作区的 `index.html`，交互补丁随之失效（桌宠还在，但摸它没反应）。**已在运行时 v66 → v77 升级中实际发生并验证修复**。
+
+一条命令恢复：
+
+```bat
+python tools/xiaoyue_repatch.py
+```
+
+工具特性：自动发现所有小月 widget（不硬编码 ID）、自动识别运行时版本、改前自动备份到 `tools/backups/`、幂等可重复运行、补丁后自动语法检查；若未来版本结构大变导致锚点失配，会明确报错且不会写坏原文件。日常体检可用 `python xiaoyue_repatch.py --check`（只检查不修改）。
 
 ## 仓库结构
 
@@ -56,9 +73,15 @@
 riv/          四个形态的成品 Rive 文件（可直接安装）
 assets/       每形态 7 张立绘 PNG（384px 高、已去水印裁边）
 manifest/     四份 pet.json 安装清单
-docs/         安装与运行时补丁说明
+tools/        交互补丁一键工具（含补丁本体 xiaoyue_emotion_patch.js）
+docs/         安装与运行时补丁说明、即梦立绘提示词包 v2（含二头身超 Q 版）
 screenshots/  实机效果截图
 ```
+
+## 更新日志
+
+- **2026-09-14**：适配 Kimi Work 运行时 v77 —— 官方升级覆盖 `index.html` 导致互动失效，补丁原样兼容 v77 结构；新增 `tools/xiaoyue_repatch.py` 一键恢复工具；安装文档补丁内容同步为线上实际运行的 v2 版（悬停每 600ms 重触发 `jump`）；新增 `docs/jimeng-prompts-v2.md`（即梦立绘提示词包：跨表情一致性 / 画面占比锁定 / 二头身超 Q 版整套）。
+- **2026-09-05**：首个版本 —— 4 形态 Rive 成品 + 立绘 + 安装文档。
 
 ## 状态机
 
