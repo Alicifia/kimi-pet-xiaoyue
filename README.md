@@ -57,7 +57,7 @@
 
 ## Kimi Work 升级后互动失效？
 
-官方升级会覆盖桌宠工作区的 `index.html`，交互补丁随之失效（桌宠还在，但摸它没反应）。**已在运行时 v66 → v77 升级中实际发生并验证修复**。
+官方升级会覆盖桌宠工作区的 `index.html`，交互补丁随之失效（桌宠还在，但摸它没反应）。**已在运行时 v66 → v77、v77 → v89 两次升级中实际发生并验证修复**。
 
 一条命令恢复：
 
@@ -80,6 +80,7 @@ screenshots/  实机效果截图
 
 ## 更新日志
 
+- **2026-09-17**：适配 Kimi Work 运行时 v89 —— 官方升级再次覆盖 `index.html` 导致互动失效，实测 v89 的补丁锚点函数（`bindRiveLookInputs` / `syncRiveActivityTrigger`）与 v77 逐字节一致，补丁原样兼容，`python tools/xiaoyue_repatch.py` 一键恢复 4 形态并全部语法检查通过。
 - **2026-09-14**：适配 Kimi Work 运行时 v77 —— 官方升级覆盖 `index.html` 导致互动失效，补丁原样兼容 v77 结构；新增 `tools/xiaoyue_repatch.py` 一键恢复工具；新增 `docs/jimeng-prompts-v2.md`（即梦立绘提示词包：跨表情一致性 / 画面占比锁定 / 二头身超 Q 版整套）。**修复悬停微笑闪烁**：悬停从「每 600ms 重触发 `jump`」改为 `happyOn` / `happyOff` 开关——`jump` 是一次性动画（约 667ms 自动回 idle），接力会在微笑 / 正常之间来回闪；`happyHold` 是 loop 状态、不自动返回，一次触发即可持续保持。
 - **2026-09-05**：首个版本 —— 4 形态 Rive 成品 + 立绘 + 安装文档。
 

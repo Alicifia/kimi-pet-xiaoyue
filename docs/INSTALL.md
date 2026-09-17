@@ -115,6 +115,6 @@ python tools/xiaoyue_repatch.py
 
 ## 注意事项
 
-- 官方升级 Kimi Work 会覆盖 `index.html`（运行时 v66 → v77 升级中已实际发生），届时运行 `python tools/xiaoyue_repatch.py` 即可一键恢复。
-- 本补丁已适配运行时 v66 / v77 的 `index.html` 结构；若未来版本锚点失配，工具会明确报错且不会写坏原文件，欢迎提 Issue。
+- 官方升级 Kimi Work 会覆盖 `index.html`（运行时 v66 → v77、v77 → v89 升级中均已实际发生），届时运行 `python tools/xiaoyue_repatch.py` 即可一键恢复。
+- 本补丁已适配运行时 v66 / v77 / v89 的 `index.html` 结构（v89 的 `bindRiveLookInputs` / `syncRiveActivityTrigger` 与 v77 逐字节一致）；若未来版本锚点失配，工具会明确报错且不会写坏原文件，欢迎提 Issue。
 - 一切修改前先备份原文件（一键工具会自动备份到 `tools/backups/`）。
